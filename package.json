@@ -1,0 +1,20 @@
+{
+  "name": "authentication",
+  "version": "1.0.0",
+  "description": "This project is use for authenticate user into our web site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soumenpanuya/Authentication.git"
+  },
+  "author": "soumen panuya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soumenpanuya/Authentication/issues"
+  },
+  "homepage": "https://github.com/soumenpanuya/Authentication#readme"
+}
