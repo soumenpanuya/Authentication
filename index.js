@@ -1,7 +1,8 @@
 require('dotenv').config();
+const env = require('./config/enviroment');
 
 const express = require('express');
-const port = process.env.port || 1001 ;
+const port = env.port;
 
 // --------Data Base configure----------//
 require('./config/mongoose');

@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+const env =require('./enviroment');
 
 (async function(){
     try{
-        await mongoose.connect("mongodb://127.0.0.1:27017/Authentication");
+        await mongoose.connect(env.db);
         console.log("Data Base connected...")
 
     }catch(err){
