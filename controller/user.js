@@ -3,6 +3,9 @@ const User =require('../Models/user');
 
 // ---------Import Bcrypt library-----------//
 const bcrypt =require('bcrypt');
+const jwt = require('jsonwebtoken');
+const env =require('../config/enviroment');
+const accountmail = require('../config/nodemailer');
 
 
 class userController{
@@ -38,17 +41,26 @@ class userController{
                 message : 'User already Exist...Please Sign-in..'
                 })
             }
+            const token = jwt.sign({name, email,password},env.jwt_key,{expiresIn:'15m'});
+            const data = {
+                hostid: 'http://' + req.header.host,
+                email : email,
+                token : token
+            }
+            // console.log(data);
+
+            accountmail.newmail(data);
             
-            const salt = await bcrypt.genSalt(10);
-            const hashPassword = await bcrypt.hash(password,salt);
-            const newUser = new User({
-                name:name,
-                email:email,
-                password:hashPassword
-            });
-            newUser.save();
+            // const salt = await bcrypt.genSalt(10);
+            // const hashPassword = await bcrypt.hash(password,salt);
+            // const newUser = new User({
+            //     name:name,
+            //     email:email,
+            //     password:hashPassword
+            // });
+            // newUser.save();
             return res.status(200).json({
-                message : 'User Registation Successfull...'
+                message : 'mail send Successfull...'
             });
 
 
