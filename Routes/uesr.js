@@ -6,6 +6,8 @@ const userController =require('../controller/user');
 // ---------------Public Route---------//
 router.post("/registation",userController.userResistation);
 
+router.get("/accountActivate/:token",userController.userAccountActvate);
+
 //-------------- Private Route-----------//
 router.post("/login",passport.authenticate('local',{failureRedirect:'/user/login'}),userController.userLogin);
 

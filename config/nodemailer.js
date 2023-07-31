@@ -6,7 +6,7 @@ exports.newmail = async (data)=>{
 
     let transporter = nodemailer.createTransport(env.smtp);
     let body = `<h2>Please click on below link to active your account..</h2>
-    <p>http://localhost:1001/account/activate/${data.token}</p>
+    <p>http://localhost:1001/user/accountActivate/${data.token}</p>
     <p><b>NOTE</b> This link expaire in 15 minutes..</p>
     `
 

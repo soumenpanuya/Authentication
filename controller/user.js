@@ -47,18 +47,8 @@ class userController{
                 email : email,
                 token : token
             }
-            // console.log(data);
-
             accountmail.newmail(data);
             
-            // const salt = await bcrypt.genSalt(10);
-            // const hashPassword = await bcrypt.hash(password,salt);
-            // const newUser = new User({
-            //     name:name,
-            //     email:email,
-            //     password:hashPassword
-            // });
-            // newUser.save();
             return res.status(200).json({
                 message : 'mail send Successfull...'
             });
@@ -73,6 +63,46 @@ class userController{
             })
         }
    }
+   
+    //------------- activate account Handeler ---------//
+     static userAccountActvate = async(req,res)=>{
+        try{
+            const token =req.params.token;
+            if(!token){
+                return res.status(201).json({
+                    message: 'account acctivation error..'
+                })
+            }
+            const decodetoken = await jwt.verify(token,env.jwt_key);
+
+            const{name,email,password}= decodetoken;
+            const salt = await bcrypt.genSalt(10);
+            const hashPassword = await bcrypt.hash(password,salt);
+            // const newUser = new User({
+            //     name:name,
+            //     email:email,
+            //     password:hashPassword
+            // });
+            // newUser.save();
+
+            const newuser = await User.create({
+                name:name,
+                email:email,
+                password:hashPassword
+            })
+            return res.status(200).json({
+                message : 'user registation successfull..',
+                user :newuser
+            })
+        }catch(err){
+            console.log(err);
+            return res.status(201).json({
+                message: 'Account activation error..'
+            })
+        }
+     }
+
+
 
     // ----------user Login Handeler-----------//
    static userLogin =(req,res)=>{
