@@ -62,44 +62,13 @@ class userController{
         }
    }
 
-// ----------user Login Handeler-----------//
-   static userLogin =async(req,res)=>{
-        try{
-
-            const {email, password}=req.body;
-            // -------check all field------//
-            if(!email || !password){
-                return res.status(201).json({
-                    message: 'all field required..'
-                })
-            }
-            //---------find user-----------//
-            const user = await User.findOne({email:email});
-            if(!user){
-                return res.status(201).json({
-                    message : 'user not register...'
-                })
-            }
-            // ----------checking password matc-----------//
-            const ismatch =await bcrypt.compare(password, user.password);
-            if(!ismatch){
-                return res.status(201).json({
-                    message: 'username / password not match..'
-                })
-            }
-            
+    // ----------user Login Handeler-----------//
+   static userLogin =(req,res)=>{
+        
             return res.status(200).json({
-                user : user,
+                user : req.user,
                 message: 'You are successfully login...'
             })
-
-
-        }catch(err){
-            console.log(err);
-            return res.status(201).json({
-                message : 'unable to log-in...'
-            })
-        }
    }
 };
 
