@@ -53,9 +53,6 @@ class userController{
                 message : 'mail send Successfull...'
             });
 
-
-
-
         }catch(err){
             console.log(err);
             return res.status(400).json({
@@ -78,12 +75,6 @@ class userController{
             const{name,email,password}= decodetoken;
             const salt = await bcrypt.genSalt(10);
             const hashPassword = await bcrypt.hash(password,salt);
-            // const newUser = new User({
-            //     name:name,
-            //     email:email,
-            //     password:hashPassword
-            // });
-            // newUser.save();
 
             const newuser = await User.create({
                 name:name,
