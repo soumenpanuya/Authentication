@@ -21,10 +21,12 @@
         </header>
     
         <div class="wraper">
-            <span class="icon-close"><i class="fa-solid fa-xmark"></i></span>
+            <!-- <span class="icon-close"><i class="fa-solid fa-xmark"></i></span> -->
+            
+            <!-- ------------user signin form------------- -->
             <div class="form-box login">
                 <h2>Login</h2>
-                <form id="signup-form"  action="/user/login_data" method="post">
+                <form id="signin-form"  action="/user/login_data" method="post">
                     <div class="input-box">
                         <span class="icon"><i class="fa-solid fa-envelope"></i></span>
                         <input type="email" name="email" placeholder="Enter your email" required >
@@ -42,6 +44,41 @@
                     <button type="submit" class="btn">Login</button>
                     <div class="login-register">
                         <p>Don't have an account? <a href="#" class="registr-link">Register</a></p>
+                    </div>
+                    <div ><p id="output"></p></div>
+                </form>
+            </div>
+
+            <!-- -----------user registation form----------// -->
+            <div class="form-box register">
+                <h2>Registation</h2>
+                <form id="signup-form"  action="/user/registation" method="post">
+                    <div class="input-box">
+                        <span class="icon"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" name="name" placeholder="Enter your name" required >
+                        <label>Name</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="email" name="email" placeholder="Enter your email" required >
+                        <label>Email</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" name="password" placeholder="Enter your password" required >
+                        <label>Password</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><i class="fa-solid fa-lock"></i></span>
+                        <input type="password" name="confirm_password" placeholder="Renter password" required>
+                        <label>Confirm Password</label>
+                    </div>
+                    <div class="remember-forget">
+                        <label><input type="checkbox" name="remember" required>I agree to the terms & conditions</label>
+                    </div>
+                    <button type="submit" class="btn">Register</button>
+                    <div class="login-register">
+                        <p>Already have an account? <a href="#" class="login-link">Login</a></p>
                     </div>
                     <div ><p id="output"></p></div>
                 </form>

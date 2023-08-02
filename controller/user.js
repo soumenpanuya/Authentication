@@ -82,7 +82,7 @@ class userController{
                 password:hashPassword
             })
             return res.status(200).json({
-                message : 'user registation successfull..',
+                message : 'user registation successfull.. Please login',
                 user :newuser
             })
         }catch(err){

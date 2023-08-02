@@ -7,6 +7,7 @@ const app =express();
 
 // --------Data Base configure----------//
 require('./config/mongoose');
+const connectmongo =require("connect-mongo");
 
 const session =require('express-session');
 
@@ -26,7 +27,16 @@ app.use(session({
    name : "secret",
    secret: env.session_secret,
    resave:false,
-   saveUninitialized:false
+   saveUninitialized:false,
+   cookie: {
+      maxAge:(1000 * 60 *60)
+   },
+   store: connectmongo.create({
+      mongoUrl: env.db,
+      autoRemove:"disabled"
+   },(err)=>{
+      console.log(err);
+   })
 }));
 app.use(passport.initialize());
 app.use(passport.session());

@@ -13,6 +13,6 @@ router.get("/accountActivate/:token",userController.userAccountActvate);
 
 //-------------- Private Route-----------//
 router.post("/login_data",passport.authenticate('local',{failureRedirect:'/user/login'}),userController.LoginSuccessfull);
-router.get("/logout",passport.logout,userController,userController.userLogout);
+router.get("/logout",passport.logout,userController.userLogout);
 
 module.exports =router;

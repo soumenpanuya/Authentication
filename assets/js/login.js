@@ -25,10 +25,12 @@ $(document).ready(function(){
     }
 
 
-    // new signup($("#signup-form"));  //
-    // $("#logout").click(()=>{
-
-    // })
+    $(".registr-link").click(()=>{
+        $(".wraper").addClass("active");
+    })
+    $(".login-link").click(()=>{
+        $(".wraper").removeClass("active");
+    })
 })
 
 
