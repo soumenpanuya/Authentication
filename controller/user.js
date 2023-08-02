@@ -96,12 +96,17 @@ class userController{
 
 
     // ----------user Login Handeler-----------//
-   static userLogin =(req,res)=>{
-        
-            return res.status(200).json({
-                user : req.user,
-                message: 'You are successfully login...'
-            })
+   static userLogin =(req,res)=>{      
+            return res.render("login");
+   }
+
+   static LoginSuccessfull =(req,res)=>{      
+            return res.redirect("/")
+   }
+
+    //------------user logout handler-----------// 
+   static userLogout =(req,res)=>{      
+            return res.redirect("/user/login");
    }
 };
 

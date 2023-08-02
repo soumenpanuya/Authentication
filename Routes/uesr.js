@@ -4,12 +4,15 @@ const  router = express.Router();
 const userController =require('../controller/user');
 
 // ---------------Public Route---------//
+router.get("/login/",userController.userLogin);
 router.post("/registation",userController.userResistation);
 
 router.get("/accountActivate/:token",userController.userAccountActvate);
 
-//-------------- Private Route-----------//
-router.post("/login",passport.authenticate('local',{failureRedirect:'/user/login'}),userController.userLogin);
 
+
+//-------------- Private Route-----------//
+router.post("/login_data",passport.authenticate('local',{failureRedirect:'/user/login'}),userController.LoginSuccessfull);
+router.get("/logout",passport.logout,userController,userController.userLogout);
 
 module.exports =router;

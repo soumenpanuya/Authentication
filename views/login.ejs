@@ -6,7 +6,7 @@
         <title>My Login</title>
         <script  src="https://kit.fontawesome.com/b3348ae33f.js"crossorigin="anonymous"></script>
     
-        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="/css/login.css">
     </head>
     <body>
         <header>
@@ -24,28 +24,31 @@
             <span class="icon-close"><i class="fa-solid fa-xmark"></i></span>
             <div class="form-box login">
                 <h2>Login</h2>
-                <form action="#">
+                <form id="signup-form"  action="/user/login_data" method="post">
                     <div class="input-box">
                         <span class="icon"><i class="fa-solid fa-envelope"></i></span>
-                        <input type="email" required >
+                        <input type="email" name="email" placeholder="Enter your email" required >
                         <label>Email</label>
                     </div>
                     <div class="input-box">
                         <span class="icon"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" required>
+                        <input type="password" name="password" placeholder="Enter your password" required>
                         <label>Password</label>
                     </div>
                     <div class="remember-forget">
-                        <label><input type="checkbox">Remember me</label>
+                        <label><input type="checkbox" name="remember">Remember me</label>
                         <a href="#">Forget password</a>
                     </div>
                     <button type="submit" class="btn">Login</button>
                     <div class="login-register">
                         <p>Don't have an account? <a href="#" class="registr-link">Register</a></p>
                     </div>
+                    <div ><p id="output"></p></div>
                 </form>
             </div>
         </div>
+        <script src="/jsmin/jquery-3.7.0.min.js"></script>
+        <script src="/jsmin/login.js"></script>
     </body>
     </html>
 

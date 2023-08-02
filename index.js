@@ -3,6 +3,7 @@ const env = require('./config/enviroment');
 
 const express = require('express');
 const port = env.port;
+const app =express();
 
 // --------Data Base configure----------//
 require('./config/mongoose');
@@ -13,7 +14,6 @@ const session =require('express-session');
 const passport =require('passport');
 require('./config/passport');
 
-const app =express();
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -30,6 +30,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+// app.use(passport.setauthenticateduser);
 
 // ---------Routes--------//
 app.use('/',require('./Routes/index'));

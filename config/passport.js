@@ -42,6 +42,31 @@ passport.deserializeUser(async(id,done)=>{
     }catch(err){
         console.log(err);
     }
-})
+});
+
+passport.checkauthenticate =(req,res,next)=>{
+
+    if(req.isAuthenticated())
+    {
+        return next();
+        
+    }
+    return res.redirect("/user/login");
+}
+
+passport.setauthenticateduser =(req,res,next)=>{
+    if(req.isAuthenticated())
+    {
+        res.locals.user =req.user;
+    }
+    next();
+}
+
+passport.logout =(req,res,next)=>{
+    req.logout((err)=>{
+        if(err){return next(err)};
+         next();
+    })
+}
 
 module.exports =passport ;
