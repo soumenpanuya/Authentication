@@ -8,11 +8,13 @@ $(document).ready(function(){
         signupData(element){
             $(element).submit((e)=>{
                 e.preventDefault();
+                console.log('register call');
                 $.ajax({
                     type:'post',
                     url : $(element).attr("action"),
                     data :element.serialize(),
                     success:(result)=>{
+                        console.log(result);
                     },
                     error: (error)=>{
                         console.log(error.responseText);
@@ -23,6 +25,8 @@ $(document).ready(function(){
             })
         }
     }
+
+    // new signup($("#signup-form"));
 
 
     $(".registr-link").click((e)=>{

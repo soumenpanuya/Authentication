@@ -11,6 +11,11 @@ const connectmongo =require("connect-mongo");
 
 const session =require('express-session');
 
+// ----------flash message setting---------//
+const flash = require("connect-flash");
+const flashmessage =require("./config/flashmessage");
+
+
 // -----------passport Authentication--------//
 const passport =require('passport');
 require('./config/passport');
@@ -41,6 +46,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setauthenticateduser);
+app.use(flash());
+app.use(flashmessage.setflash);
 
 // ---------Routes--------//
 app.use('/',require('./Routes/index'));

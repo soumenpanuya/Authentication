@@ -12,36 +12,32 @@ const crypto =require("crypto");
 class userController{
     // -------------User Registation Handle ------------//
     static userResistation = async(req,res)=>{
-        console.log("user registation");
         try{
            const {name, email, password, confirm_password} = req.body;
 
            // ------------checking Required field------------//
            if(!name || !email || !password || !confirm_password){
-                return res.status(201).json({
-                 message: 'all field required..'
-                })
+            req.flash("success","All field required")
+            return res.redirect("back");
             }
 
             // -------- Checking Password Mismatch----------------//
             if(password !=confirm_password){
-                 return res.status(201).json({
-                 message: 'Password do not match...'
-                })
+                req.flash("success","password not match..")
+                return res.redirect("back");
             }
 
             // ------Checking Password Length--------//
             if(password.length <8){
-                 return res.status(201).json({
-                 message :'Password must be at least 8 characters..'
-                })
+                req.flash("success","Password must be at least 8 characters.")
+                return res.redirect("back");
             }
 
             const user =await User.findOne({email:email});
             if(user){
-                return res.status(201).json({
-                message : 'User already Exist...Please Sign-in..'
-                })
+                req.flash("success","User already Exist Please Sign-in..")
+                return res.redirect("back");
+                
             }
             const token = jwt.sign({name, email,password},env.jwt_key,{expiresIn:'15m'});
             const data = {
@@ -51,31 +47,31 @@ class userController{
             }
             mailService.activeAccountMail(data);
             
-            return res.status(200).json({
-                message : 'mail send Successfull...'
-            });
-
+            req.flash("success","Verification link send to your email..");
+            return res.redirect("/user/login");
+            
         }catch(err){
             console.log(err);
-            return res.status(400).json({
-            message: 'unable to Register..'
-            })
+            req.flash("success","Unable to register..");
+            return res.redirect("back");
         }
    }
    
     //------------- activate account Handeler ---------//
      static userAccountActvate = async(req,res)=>{
-        console.log("user registation step 2")
         try{
             const token =req.params.token;
             if(!token){
-                return res.status(201).json({
-                    message: 'account acctivation error..'
-                })
+                req.flash("success","Invalid token..");
+                return res.redirect("/user/login");
             }
             const decodetoken = await jwt.verify(token,env.jwt_key);
 
             const{name,email,password}= decodetoken;
+            if(!name || !email || !password ){
+                req.flash("success","Invalid token..")
+                return res.redirect("/user/login");
+                }
             const salt = await bcrypt.genSalt(10);
             const hashPassword = await bcrypt.hash(password,salt);
 
@@ -84,15 +80,15 @@ class userController{
                 email:email,
                 password:hashPassword
             })
-            return res.status(200).json({
-                message : 'user registation successfull.. Please login',
-                user :newuser
-            })
+
+            req.flash("success","Registation successfull please login..");
+            return res.redirect("/user/login");
+            
         }catch(err){
             console.log(err);
-            return res.status(201).json({
-                message: 'Account activation error..'
-            })
+            req.flash("success","Unable to register..");
+            return res.redirect("/user/login");
+            
         }
      }
 
@@ -103,12 +99,14 @@ class userController{
         return res.render("login");
    }
 
-   static LoginSuccessfull =(req,res)=>{      
+   static LoginSuccessfull =(req,res)=>{     
+    req.flash("success","Login successfull..");
         return res.redirect("/")
    }
 
     //------------user logout handler-----------// 
    static userLogout =(req,res)=>{      
+    req.flash("success","Logout successfull..")
         return res.redirect("/user/login");
    }
    
@@ -117,15 +115,13 @@ class userController{
         try{
             const {email} = req.body;
             if(!email){
-                return res.status(200).json({
-                    message: " Please enter email"
-                })
+                req.flash("success","Please enter email")
+                return res.redirect("back");
             }
             const user =await User.findOne({email:email});
             if(!user){
-                return res.status(201).json({
-                    message: "Email not registered."
-                })
+                req.flash("success","Email not registered.")
+                return res.redirect("back");
             }
             const resetCode = crypto.randomBytes(15).toString('hex');
             user.resetcode = resetCode;
@@ -138,16 +134,14 @@ class userController{
             }
             mailService.forgetPasswordMail(data);
 
-            return res.status(200).json({
-                message: "Reset link sent to your account.."
-            })
+            req.flash("success","Reset link send to your email..")
+            return res.redirect("/user/login");
 
 
         }catch(err){
             console.log(err);
-            return res.status(201).json({
-                message: "Unable to proceed"
-            })
+            req.flash("success","Unable to proceed..")
+                return res.redirect("back");
         }
    }
 
@@ -155,28 +149,24 @@ class userController{
         try{
             const token = req.params.token;
             if(!token){
-                return res.status(201).json({
-                    message: 'Password reset error..'
-                })
+                req.flash("success","Invalid token..");
+                return res.redirect("/user/login");
             }
             const decodetoken = await jwt.verify(token,env.jwt_key);
 
             const{email,resetCode}= decodetoken;
             if(!email || !resetCode){
-                return res.status(201).json({
-                    message: "user error"
-                })
+                req.flash("success","Invalid token..");
+                return res.redirect("/user/login");
             }
             const user = await User.findOne({email:email});
             if(!user){
-                return res.status(201).json({
-                    message: "user error"
-                })
+                req.flash("success","User not found..");
+                return res.redirect("/user/login");
             }
             if(resetCode !== user.resetcode){
-                return res.status(201).json({
-                    message: "password reset error"
-                })
+                req.flash("success","Password not match..");
+                return res.redirect("/user/login");
             } 
             return res.render("resetpassword",{
                 token: token
@@ -184,9 +174,8 @@ class userController{
 
         }catch(err){
             console.log(err);
-            return res.status(201).json({
-                message : " Unable to Proceed.."
-            })
+            req.flash("success","password reset error..");
+                return res.redirect("/user/login");
         }
    }
 
@@ -211,52 +200,52 @@ class userController{
    static new_reset_pasword = async(req,res)=>{
         try{
             const {password,confirm_password} =req.body;
+            if(password.length <8){
+                req.flash("success","Password must be at least 8 characters.")
+                return res.redirect("back");
+            }
             if(!password || !confirm_password){
-                return res.status(200).json({
-                    message: "all field required"
-                })
+                req.flash("success","all field required..");
+                return res.redirect("back");
             }
             if(password !=confirm_password){
-                return res.status(200).json({
-                    message: "password not match"
-                })
+                req.flash("success","Password not match..");
+                return res.redirect("back");
             }
             const token = req.params.token;
             if(!token){
-                return res.status(201).json({
-                    message: 'invalid token..'
-                })
+                req.flash("success","Invalid token..");
+                return res.redirect("back");
             }
             const decodetoken = await jwt.verify(token,env.jwt_key);
 
             const{email,resetCode}= decodetoken;
             if(!email || !resetCode){
-                return res.status(201).json({
-                    message: "invalid token"
-                })
+                req.flash("success","Invalid token..");
+                return res.redirect("back");
             }
             const user = await User.findOne({email:email});
             if(!user){
-                return res.status(201).json({
-                    message: "user not found"
-                })
+                req.flash("success","Invalid token..");
+                return res.redirect("back");
             }
             if(resetCode != user.resetcode){
-                return res.status(201).json({
-                    message: "invalid token.."
-                })
+                req.flash("success","Invalid token..");
+                return res.redirect("back");
             }
             const salt = await bcrypt.genSalt(10);
             const hashPassword = await bcrypt.hash(password,salt);
             user.password = hashPassword;
             await user.save();
+            req.flash("success","Password reset successfull..")
             return res.redirect("/user/login");
 
 
         }catch (err) {
             console.log(err);
+            req.flash("success","Unable to process..")
+            return res.redirect("back");
         }
-    return res.render("resetpassword");
    }
 
 };
