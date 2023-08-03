@@ -25,11 +25,21 @@ $(document).ready(function(){
     }
 
 
-    $(".registr-link").click(()=>{
+    $(".registr-link").click((e)=>{
+        e.preventDefault();
         $(".wraper").addClass("active");
     })
-    $(".login-link").click(()=>{
+    $(".login-link").click((e)=>{
+        e.preventDefault();
         $(".wraper").removeClass("active");
+    })
+    $("#forget").click((e)=>{
+        e.preventDefault();
+        $(".wraper").addClass("forgetactive");
+    })
+    $(".forget-login-link").click((e)=>{
+        e.preventDefault();
+        $(".wraper").removeClass("forgetactive");
     })
 })
 

@@ -1,1 +1,1 @@
-$(document).ready(function(){$(".registr-link").click(()=>{$(".wraper").addClass("active")}),$(".login-link").click(()=>{$(".wraper").removeClass("active")})});
+$(document).ready(function(){$(".registr-link").click(e=>{e.preventDefault(),$(".wraper").addClass("active")}),$(".login-link").click(e=>{e.preventDefault(),$(".wraper").removeClass("active")}),$("#forget").click(e=>{e.preventDefault(),$(".wraper").addClass("forgetactive")}),$(".forget-login-link").click(e=>{e.preventDefault(),$(".wraper").removeClass("forgetactive")})});

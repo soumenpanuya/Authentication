@@ -102,6 +102,10 @@ header {
   height: 480px;
 }
 
+.wraper.forgetactive {
+  height: 300px;
+}
+
 .wraper .form-box {
   width: 100%;
   padding: 40px;
@@ -126,6 +130,20 @@ header {
 .wraper.active .form-box.register {
   transition: 0.5s ease;
   transform: translateX(0);
+}
+
+.wraper .form-box.forget {
+  position: absolute;
+  transition: 0.5s ease;
+  transform: translateY(350px);
+}
+
+.wraper.forgetactive .form-box.forget {
+  transform: translateY(0);
+}
+
+.wraper.forgetactive .form-box.login {
+  transform: translateX(-400px);
 }
 
 .wraper .icon-close {
@@ -244,8 +262,4 @@ header {
 
 .login-register p a:hover {
   text-decoration: underline;
-}
-
-#output {
-  color: #fff;
 }
