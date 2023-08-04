@@ -98,9 +98,7 @@ class userController{
 
     // ----------user Login Handeler-----------//
    static userLogin =(req,res)=>{      
-        return res.render("login",{
-            name: "gdsf"
-        });
+        return res.render("login");
    }
 
    static LoginSuccessfull =(req,res)=>{     
@@ -241,12 +239,8 @@ class userController{
             const hashPassword = await bcrypt.hash(password,salt);
             user.password = hashPassword;
             await user.save();
-            req.logout((err)=>{
-                if(err){
-                return console.log(err);
-            }});
             req.flash("success","Password reset successfull..")
-            return res.redirect("/user/login");
+             return res.redirect("/");
 
 
         }catch (err) {

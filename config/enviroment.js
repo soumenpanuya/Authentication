@@ -40,7 +40,7 @@ const production ={
     },
     google_clientID : process.env.google_clientID,
     google_clientSecret : process.env.google_clientSecret,
-    google_callbackURL : 'https://authenticate-user-euwz.onrender.com/user/google-auth-callback'
+    google_callbackURL : process.env.google_callbackURL
 }
 
 module.exports =eval(process.env.ev) == undefined ? development : eval(process.env.ev);
