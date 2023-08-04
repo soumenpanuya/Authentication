@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: space-around;
+  min-height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-position: center;
+}
+
+#user_profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#user_profile #img {
+  display: flex;
+  align-items: center;
+}
+
+#user_profile #img img {
+  border-radius: 50%;
+}
+
+#setting {
+  display: flex;
+  flex-direction: column;
+}
+
+#setting a {
+  margin: 10px;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 600;
+}

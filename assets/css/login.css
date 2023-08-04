@@ -243,6 +243,26 @@ header {
   font-size: 1.2em;
   color: rgb(0, 0, 15);
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn.google_sign {
+  height: 30px;
+  margin-top: 10px;
+}
+
+.btn.google_sign a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.btn.google_sign img {
+  background: transparent;
+  height: 30px;
+  border-radius: 50%;
+  padding-right: 10px;
 }
 
 .login-register {

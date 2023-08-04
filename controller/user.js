@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const env =require('../config/enviroment');
 const mailService = require('../config/nodemailer');
 const crypto =require("crypto");
+let passport= require("../config/passport");
 
 
 class userController{
@@ -20,18 +21,18 @@ class userController{
             req.flash("success","All field required")
             return res.redirect("back");
             }
-
+            
+            // ------Checking Password Length--------//
+            if(password.length <8){
+                req.flash("success","Password must be at least 8 characters.")
+                return res.redirect("back");
+            }
             // -------- Checking Password Mismatch----------------//
             if(password !=confirm_password){
                 req.flash("success","password not match..")
                 return res.redirect("back");
             }
 
-            // ------Checking Password Length--------//
-            if(password.length <8){
-                req.flash("success","Password must be at least 8 characters.")
-                return res.redirect("back");
-            }
 
             const user =await User.findOne({email:email});
             if(user){
@@ -78,7 +79,8 @@ class userController{
             const newuser = await User.create({
                 name:name,
                 email:email,
-                password:hashPassword
+                password:hashPassword,
+                avter :''
             })
 
             req.flash("success","Registation successfull please login..");
@@ -96,7 +98,9 @@ class userController{
 
     // ----------user Login Handeler-----------//
    static userLogin =(req,res)=>{      
-        return res.render("login");
+        return res.render("login",{
+            name: "gdsf"
+        });
    }
 
    static LoginSuccessfull =(req,res)=>{     
@@ -237,6 +241,10 @@ class userController{
             const hashPassword = await bcrypt.hash(password,salt);
             user.password = hashPassword;
             await user.save();
+            req.logout((err)=>{
+                if(err){
+                return console.log(err);
+            }});
             req.flash("success","Password reset successfull..")
             return res.redirect("/user/login");
 

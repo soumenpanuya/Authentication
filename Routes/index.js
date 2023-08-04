@@ -2,6 +2,7 @@ const express = require('express');
 const passport =require("../config/passport");
 const router = express.Router();
 
+
 router.use('/user',require('./uesr'));  
 
 // ----------private route----------//

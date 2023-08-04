@@ -11,7 +11,8 @@ router.get("/registation-step2/:token",userController.userAccountActvate);
 router.post("/forgetPassword",userController.forgetPassword);
 router.get("/forgetPassword-step2/:token",userController.forgetPassword_step2);
 router.post("/new-password-set/:token",userController.new_reset_pasword);
-
+router.get("/google-auth",passport.authenticate('google',{scope: ['profile', 'email']}));
+router.get("/google-auth-callback",passport.authenticate('google',{failureRedirect:'/user/login'}),userController.LoginSuccessfull)
 
 
 //-------------- Private Route-----------//

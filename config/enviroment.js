@@ -15,7 +15,10 @@ const development ={
             user : process.env.smtp_user ,  //  please replace smtp_user to your user..
             pass : process.env.smtp_pass  // replace smtp_pass to your...
         }
-    }
+    },
+    google_clientID : process.env.google_clientID,
+    google_clientSecret : process.env.google_clientSecret,
+    google_callbackURL : 'http://localhost:1001/user/google-auth-callback'
 }
 
 // --------------use for production-------------//
@@ -34,7 +37,10 @@ const production ={
             user : process.env.smtp_user ,  //  please replace smtp_user to your user..
             pass : process.env.smtp_pass  // replace smtp_pass to your...
         }
-    }
+    },
+    google_clientID : process.env.google_clientID,
+    google_clientSecret : process.env.google_clientSecret,
+    google_callbackURL : process.env.google_callbackURL
 }
 
 module.exports =eval(process.env.ev) == undefined ? development : eval(process.env.ev);

@@ -1,24 +1,28 @@
 const passport =require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const googleStrategy =require("passport-google-oauth").OAuth2Strategy;
 const User = require('../Models/user');
 const bcrypt =require('bcrypt');
+const crypto = require("crypto");
+const env = require("./enviroment");
 
 
-passport.use(new LocalStrategy({usernameField : 'email'},async(email,password,done)=>{
+passport.use(new LocalStrategy({usernameField : 'email',passReqToCallback:true},async(req,email,password,done)=>{
+    // passReqToCallback:true this argument pass req object to callback function....
     try{
         // ---------checl all field----------//
         if(!email || !password){
-            return done(null, false, {message: 'all field required..'});
+            return done(null, false, req.flash("error",'all field required..'));
         }
         // ---------user find---------//
         const user = await User.findOne({email:email});
         if(!user){
-            return done(null, false ,{message :'user not register...'});
+            return done(null, false ,req.flash("error",'username / password not match...'));
         }
         // ----------check password match------------//
         const ismatch = await bcrypt.compare(password,user.password);
         if(!ismatch){
-            return done(null , false ,{messages: 'username / password not match...'});
+            return done(null , false ,req.flash("error",'username / password not match...'));
         }
         return done(null, user);
 
@@ -27,6 +31,35 @@ passport.use(new LocalStrategy({usernameField : 'email'},async(email,password,do
         console.log(err);
     }
 }));
+
+passport.use(new googleStrategy({
+        clientID:env.google_clientID,
+        clientSecret:env.google_clientSecret,
+        callbackURL:env.google_callbackURL
+    },
+    async(accessToken, refreshToken, profile,done)=>{
+        try{
+            let user = await User.findOne({email:profile.emails[0].value});
+            console.log(profile);
+            if(user){
+                return done(null,user)
+            }else{
+               let newuser= await User.create({
+                    name:profile.displayName,
+                    email:profile.emails[0].value,
+                    password:crypto.randomBytes(15).toString('hex'),
+                    avter :profile._json.picture
+                })
+                return done(null,newuser)
+            }
+
+        }catch(err){
+            console.log(err);
+            return done(err,false);
+        }
+
+    }
+))
 
 passport.serializeUser((user,done)=>{
    return done(null,user.id);

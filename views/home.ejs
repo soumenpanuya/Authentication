@@ -3,14 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 </head>
 <body>
-    <h2>wellocome <%=user.name%></h2>
-    <p><%=user.email%></p>
-    <a href="/user/logout">Logout</a>
-    <a href="/user/user-resetpassword">Reset Password</a>
+    <div id="user_profile">
+        <div id="img">
+            <%if(user.avter){%>
+                <img src="<%=user.avter%>" alt="">
+        
+            <%}%>
+        </div>
+        <div>
+            <h2>wellocome <%=user.name%></h2>
+            <p><%=user.email%></p>
+
+        </div>
+
+    </div>
+
+    <div id="setting">
+        <a href="/user/logout">Logout</a>
+        <a href="/user/user-resetpassword">Reset Password</a>
+
+    </div>
 
     
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>

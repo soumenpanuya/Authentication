@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema({
     resetcode :{
         type : String,
         default: ''
+    },
+    avter:{
+        type: String
     }
 
 },{
