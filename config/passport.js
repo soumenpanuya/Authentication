@@ -40,7 +40,6 @@ passport.use(new googleStrategy({
     async(accessToken, refreshToken, profile,done)=>{
         try{
             let user = await User.findOne({email:profile.emails[0].value});
-            console.log(profile);
             if(user){
                 return done(null,user)
             }else{
